@@ -3,6 +3,10 @@ import neat
 import time
 import os
 import random
+import sys
+
+
+
 
 WIN_WIDTH = 500
 WIN_HEIGHT = 800
@@ -13,6 +17,7 @@ BIRD_IMGS = [pygame.transform.scale2x(pygame.image.load(os.path.join("imgs", "bi
 PIPE_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join("imgs", "pipe.png")))
 BASE_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join("imgs", "base.png")))
 BG_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join("imgs", "bg.png")))
+
 
 
 class Bird:
@@ -32,7 +37,7 @@ class Bird:
         self.img = self.IMGS[0]
 
     def jump(self):
-        self.vel = -10.5
+        self.vel = -9.5
         self.tick_count = 0
         self.height = self.y
 
@@ -158,21 +163,32 @@ def draw_window(win, bird, pipes, base):
     pygame.display.update()
 
 
+
+
+
 def main():
     score = 0
     bird = Bird(230, 350)
     base = Base(730)
     pipes = [Pipe(700)]
     win = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
+    pygame.init()
     clock = pygame.time.Clock()
     run = True
+
     while run:
-        clock.tick(60)
+        clock.tick(25)
         for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_TAB:
+
+                    bird.jump()
+                    print("KEY PRESSED")
             if event.type == pygame.QUIT:
                 run = False
-        # bird.move()
-        # bird.jump()
+
+
+
         rem = []
         add_pipe = False
         for pipe in pipes:
@@ -195,7 +211,22 @@ def main():
             pipe.move()
 
         if bird.y +bird.img.get_height() >= 700:
-            pass
+            print("GAME OVER")
+            pygame.font.init()
+            pygame.font.SysFont('arial', 36)
+            f1 = pygame.font.Font(None, 36)
+            text1 = f1.render('Hello Привет', True,
+                              (180, 0, 0))
+
+            f2 = pygame.font.SysFont('serif', 48)
+            text2 = f2.render("World Мир", False, (0, 180, 0))
+            win.blit(text1, (10, 50))
+            win.blit(text2, (10, 100))
+            pygame.display.update()
+            # run = False
+
+
+        bird.move()
         base.move()
         draw_window(win, bird, pipes, base)
 
