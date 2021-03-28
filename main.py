@@ -58,6 +58,7 @@ def main():
 
     while run:
         clock.tick(25)
+
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_TAB or pygame.K_SPACE:
