@@ -165,16 +165,16 @@ def draw_window(win, bird, pipes, base):
     pygame.display.update()
 
 def game_over(win,base,score):
-
-
+    win.blit(BG_IMG, (0, 0))
+    base.draw(win)
     f1 = pygame.font.Font(None, 36)
     text1 = f1.render('Hello Привет', True,
                       (100, 100, 0))
 
     f2 = pygame.font.SysFont('serif', 48)
-    text2 = f2.render("World Мир", False, (0, 180, 0))
-    win.blit(text1, (10, 50))
-    win.blit(text2, (10, 100))
+    text2 = f2.render("Final Score is " + str(score), False, (0, 180, 0))
+    win.blit(text1, (100, 300))
+    win.blit(text2, (100, 400))
     pygame.display.update()
 
 
@@ -188,6 +188,7 @@ def main():
     pygame.init()
     clock = pygame.time.Clock()
     run = True
+    game = True
 
     while run:
         clock.tick(25)
@@ -200,36 +201,38 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
 
-        rem = []
+        if game:
+            rem = []
 
-        add_pipe = False
-        for pipe in pipes:
-            if pipe.collide(bird,win):
-                pass
-            if pipe.x + pipe.PIPE_TOP.get_width() < 0:
-                rem.append(pipe)
+            add_pipe = False
+            for pipe in pipes:
+                if pipe.collide(bird,win):
+                    pass
+                if pipe.x + pipe.PIPE_TOP.get_width() < 0:
+                    rem.append(pipe)
 
-            if not pipe.passed and pipe.x < bird.x:
-                pipe.passed = True
-                add_pipe = True
-            pipe.move()
-        if add_pipe:
-            score += 1
+                if not pipe.passed and pipe.x < bird.x:
+                    pipe.passed = True
+                    add_pipe = True
+                pipe.move()
+            if add_pipe:
+                score += 1
 
-            pipes.append(Pipe(700))
+                pipes.append(Pipe(700))
 
-        for r in rem:
-            pipes.remove(r)
-            pipe.move()
+            for r in rem:
+                pipes.remove(r)
+                pipe.move()
 
         if bird.y +bird.img.get_height() >= 700:
-            pass
+            game = False
 
-
-        bird.move()
-        base.move()
-        draw_window(win, bird, pipes, base)
-
+        if game:
+            bird.move()
+            base.move()
+            draw_window(win, bird, pipes, base)
+        else:
+            game_over(win, base, score)
 
     pygame.quit()
     print(score)
