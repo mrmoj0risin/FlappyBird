@@ -159,10 +159,11 @@ def draw_window(win, bird, pipes, base,score):
     f1 = pygame.font.Font(None, 36)
     score_draw = f1.render('Score ' + str(score), True,
                       (100, 100, 0))
-    win.blit(score_draw,(10,10))
+
     for pipe in pipes:
         pipe.draw(win)
 
+    win.blit(score_draw,(10,10))
     base.draw(win)
 
     bird.draw(win)
@@ -240,7 +241,6 @@ def main():
             game_over(win, base, score)
 
     pygame.quit()
-    print(score)
     quit()
 
 
