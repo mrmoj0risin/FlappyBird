@@ -5,6 +5,8 @@ import os
 import random
 import sys
 
+pygame.font.init()
+pygame.font.SysFont('arial', 36)
 
 
 
@@ -113,8 +115,8 @@ class Pipe:
 
     def collide(self, bird, win):
         bird_mask = bird.get_mask()
-        top_mask = pygame.mask.from_surface(self.img)
-        bottom_mask = pygame.mask.from_surface(self.img)
+        top_mask = pygame.mask.from_surface(self.PIPE_TOP)
+        bottom_mask = pygame.mask.from_surface(self.PIPE_BOTTOM)
 
         top_ofset = (self.x - bird.x, self.top - round(bird.y))
         bottom_ofset = (self.x - bird.x, self.bottom - round(bird.y))
@@ -162,7 +164,18 @@ def draw_window(win, bird, pipes, base):
     bird.draw(win)
     pygame.display.update()
 
+def game_over(win,base,score):
 
+
+    f1 = pygame.font.Font(None, 36)
+    text1 = f1.render('Hello Привет', True,
+                      (100, 100, 0))
+
+    f2 = pygame.font.SysFont('serif', 48)
+    text2 = f2.render("World Мир", False, (0, 180, 0))
+    win.blit(text1, (10, 50))
+    win.blit(text2, (10, 100))
+    pygame.display.update()
 
 
 
@@ -183,17 +196,16 @@ def main():
                 if event.key == pygame.K_TAB:
 
                     bird.jump()
-                    print("KEY PRESSED")
+
             if event.type == pygame.QUIT:
                 run = False
 
-
-
         rem = []
+
         add_pipe = False
         for pipe in pipes:
-            # if pipe.collide(bird):
-            #     pass
+            if pipe.collide(bird,win):
+                pass
             if pipe.x + pipe.PIPE_TOP.get_width() < 0:
                 rem.append(pipe)
 
@@ -211,19 +223,7 @@ def main():
             pipe.move()
 
         if bird.y +bird.img.get_height() >= 700:
-            print("GAME OVER")
-            pygame.font.init()
-            pygame.font.SysFont('arial', 36)
-            f1 = pygame.font.Font(None, 36)
-            text1 = f1.render('Hello Привет', True,
-                              (180, 0, 0))
-
-            f2 = pygame.font.SysFont('serif', 48)
-            text2 = f2.render("World Мир", False, (0, 180, 0))
-            win.blit(text1, (10, 50))
-            win.blit(text2, (10, 100))
-            pygame.display.update()
-            # run = False
+            pass
 
 
         bird.move()
