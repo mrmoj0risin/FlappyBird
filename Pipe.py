@@ -7,7 +7,7 @@ import random
 PIPE_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join("imgs", "pipe.png")))
 
 class Pipe:
-    GAP = 200
+    GAP = 185
     VEL = 5
 
     def __init__(self, x):

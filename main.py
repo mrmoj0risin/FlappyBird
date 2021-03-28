@@ -1,9 +1,8 @@
 import pygame
-import neat
-import time
+# import neat
+# import time
 import os
-import random
-import sys
+# import sys
 from Pipe import Pipe
 from Bird import Bird
 from Base import Base
@@ -45,8 +44,8 @@ def game_over(win,base,score):
     pygame.display.update()
 
 
-
 def main():
+    global pipe
     score = 0
     bird = Bird(200, 320)
     base = Base(730)
