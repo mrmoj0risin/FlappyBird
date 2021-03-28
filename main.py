@@ -46,7 +46,6 @@ def game_over(win, base, score):
 
 
 def main():
-    global pipe
     score = 0
     bird = Bird(200, 320)
     base = Base(730)
