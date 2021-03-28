@@ -39,7 +39,7 @@ class Bird:
         self.img = self.IMGS[0]
 
     def jump(self):
-        self.vel = -9.5
+        self.vel = -8.9
         self.tick_count = 0
         self.height = self.y
 
@@ -153,9 +153,13 @@ class Base:
         win.blit(self.IMG, (self.x2, self.y))
 
 
-def draw_window(win, bird, pipes, base):
+def draw_window(win, bird, pipes, base,score):
     win.blit(BG_IMG, (0, 0))
 
+    f1 = pygame.font.Font(None, 36)
+    score_draw = f1.render('Score ' + str(score), True,
+                      (100, 100, 0))
+    win.blit(score_draw,(10,10))
     for pipe in pipes:
         pipe.draw(win)
 
@@ -181,7 +185,7 @@ def game_over(win,base,score):
 
 def main():
     score = 0
-    bird = Bird(230, 350)
+    bird = Bird(200, 320)
     base = Base(730)
     pipes = [Pipe(700)]
     win = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
@@ -227,10 +231,11 @@ def main():
         if bird.y +bird.img.get_height() >= 700:
             game = False
 
+        base.move()
         if game:
             bird.move()
-            base.move()
-            draw_window(win, bird, pipes, base)
+
+            draw_window(win, bird, pipes, base,score)
         else:
             game_over(win, base, score)
 
