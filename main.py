@@ -207,7 +207,7 @@ def main():
             add_pipe = False
             for pipe in pipes:
                 if pipe.collide(bird,win):
-                    pass
+                    game = False
                 if pipe.x + pipe.PIPE_TOP.get_width() < 0:
                     rem.append(pipe)
 
